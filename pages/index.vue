@@ -108,9 +108,9 @@
                     </p>
                    
                     <img src="https://avatars0.githubusercontent.com/u/19972486?s=400&u=c92018a13e1844e050fac4f903e248f43d335625&v=4"
-                        alt="photo de profil Github" class="w-50 h-50" />
+                        alt="photo de profil Github" class="w-50 h-50 mt-12" />
                    
-                        <div class="mt-[15px] mr-[75px] mb-auto ml-[25px] ">
+                        <div class="mt-[-32px] mr-[75px] mb-auto ml-[25px] ">
                         <p class="bg-[rgba(249,213,213,0.5)] w-[320px] h-[320px] p-[10px] text-xl">
                             C:// T. RKT
                             <br />&raquo; Réalisé en Mars 2018
