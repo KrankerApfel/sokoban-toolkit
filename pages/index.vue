@@ -1,6 +1,6 @@
 <template>
-<div class="m-auto py-24 antialiased">
-    <!-- Section Accueil -->
+    <div class="m-auto py-24  bg-[url('/bkg_main.png')]">
+        <!-- Section Accueil -->
         <div class="max-w-wrapper-sm m-24 p-2 pb-8 bg-[url('/bkg_home.png')] text-white font-vt323">
             <h1 class="text-5xl m-8">-Sokoban Level Generator-</h1>
             <div class="flex flex-row items-end h-1/2 ml-24">
@@ -18,7 +18,6 @@
                 <img src="/moi.gif" class="h-full" />
             </div>
         </div>
-
 
         <!--Section  A Propos-->
         <div
@@ -46,11 +45,11 @@
                     Parfois, on peut passer des heures à fabriquer quelques choses qui nous semble parfait, puis quand
                     un joueur l'essaie, on se rend compte qu'une solution trop simple nous a échappée ou pire encore, le
                     niveau est impossible ! Pour prévenir ces problèmes, Sokoban Level Generator vous ropose plusieurs
-                    services :<br/><br/>
+                    services :<br /><br />
 
-                    >>> Générez des niveaux ni trop durs, ni trop faciles (indisponible pour le moment)<br/>
-                    >>> Exportez-les sous format .txt<br/>
-                    >>> Importez vos propres niveaux et testez leurs solvabilités<br/>
+                    >>> Générez des niveaux ni trop durs, ni trop faciles (indisponible pour le moment)<br />
+                    >>> Exportez-les sous format .txt<br />
+                    >>> Importez vos propres niveaux et testez leurs solvabilités<br />
                     >>> Editez en direct pour modeler le niveau comme vous le préférez !</p>
                 <NuxtLink class="text-xl text-purple-300">Essayer maintenant >></NuxtLink>
             </div>
@@ -67,14 +66,79 @@
                 <NuxtLink class="text-xl text-purple-300">En savoir plus >></NuxtLink>
             </div>
         </div>
-        <!--Section  Toolkit-->
-        <div></div>
 
         <!--Section  Documentation-->
-        <div></div>
+        <div class="max-w-wrapper-sm m-24 p-2 pb-8 bg-[url('/floor.png')] text-white font-vt323">
+            <div class="flex flex-row items-end m-8">
+                <img class="h-10 object-contain" src="/deco.png" />
+                <h1 class="text-6xl ml-2">Documentation</h1>
+            </div>
+
+
+            <div class="flex flex-row m-8">
+                <p class="bg-[#000000B3] text-[#fee9fc] text-xl p-8 w-3/4 justify-end">
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore
+                    et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+                    aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+                    culpa qui officia deserunt mollit anim id est laborum.<br /><br />
+                    <NuxtLink> Lire le PDF » </NuxtLink><br />
+                    <NuxtLink> Suivre le tutoriel » </NuxtLink><br />
+                    <NuxtLink> Consulter l'article » </NuxtLink>
+                </p>
+
+
+
+                <img class="m-8 h-80" src="/kanji.png" />
+            </div>
+        </div>
 
         <!--Section  Et Moi?-->
-        <div></div>
+        <div class="max-w-wrapper-sm m-24 p-2 pb-8 text-[#fee9fc] font-vt323 border-6 border-[#fee9fc]">
+
+            <div class="border-2 m-8 mr-80 border-[#fee9fc] p-20">
+                <h1 class="text-5xl">- Qui suis-je ? -</h1>
+                <div class="flex flex-row">
+                    <p class="text-xl p-8 bg-black mr-[50px] ">
+                        Développeur de jeux vidéo amateur, j'étudis actuellement l'informatique et un peu les
+                        mathématiques
+                        en licence 2 à l'université. Je tiens également un blog qui parle principalement de conception
+                        de
+                        jeux vidéo et de l'actualité autour.
+                    </p>
+                   
+                    <img src="https://avatars0.githubusercontent.com/u/19972486?s=400&u=c92018a13e1844e050fac4f903e248f43d335625&v=4"
+                        alt="photo de profil Github" class="w-50 h-50" />
+                   
+                        <div class="mt-[15px] mr-[75px] mb-auto ml-[25px] z-[3]">
+                        <p class="bg-[rgba(249,213,213,0.5)] w-[320px] h-[320px] p-[10px] text-xl">
+                            C:// T. RKT
+                            <br />&raquo; Réalisé en Mars 2018
+                            <br />Développeur web, logiciel et illustrateur 2D
+                            <br /><br />
+                            <br />い. <a href="https://www.linkedin.com/in/tomrakotomanampison/" style="color:#fee9fc;">LinkedIn 
+                            </a>
+                            <br />ろ. <a href="https://krankerapfel.github.io" style="color:#fee9fc;">Porfolio</a>
+                            <br />は. t.rakoto76 @ gmail.com
+
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
 
     </div>
 </template>
+
+<style lang="css" scoped>
+a {
+    color: #800080;
+}
+
+a:hover {
+    text-decoration: underline;
+
+}
+</style>

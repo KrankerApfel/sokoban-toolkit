@@ -1,5 +1,5 @@
 ﻿<template>
-    <div class="min-h-dvh overflow-hidden">
+    <div class="min-h-dvh overflow-hidden antialiased">
         <HeaderBase mode="static" />
 
         <div class="min-h-svh bg-orange-50">
