@@ -1,18 +1,18 @@
 <template>
-    <div class="m-auto py-24  bg-[url('/bkg_main.png')]">
+    <div class="m-auto py-24">
         <!-- Section Accueil -->
-        <div id="accueil" class="max-w-wrapper-sm m-24 p-2 pb-8 bg-[url('/bkg_home.png')] text-white font-vt323">
-            <h1 class="text-5xl m-8">-Sokoban Level Generator-</h1>
-            <div class="flex flex-row items-end h-1/2 ml-24">
-                <p
-                    class="bg-black border-2 border-[#Fee9fc] text-[#fee9fc] text-4xl p-8 w-1/2 h-full flex flex-col justify-end">
+        <div id="accueil" class="h-screen p-2 pb-8 bg-[url('/bkg_home.png')] text-white font-vt323">
+            <h1 class="text-4xl m-8">-Sokoban Level Generator-</h1>
+
+            <div class="flex flex-row  h-1/2 ml-24">
+                <p class="bg-black border-2 border-[#Fee9fc] text-[#fee9fc] text-lg p-8 w-1/2 flex flex-col ">
                     Sokoban est un casse-tête japonais populaire dans les années 80. On y incarne un gardien d'entrepôt
                     qui doit ranger ses caisses à des emplacements précis dans un dédale de murs uniquement en les
                     poussant,
                     sans les tirer. Sokoban Toolkit (STk) est un outil de généreration automatique de
                     casse-têtes et de vérification de résolvabilité des niveaux.
                     <br /><br />
-                    <NuxtLink class="text-4xl underline">En savoir plus »</NuxtLink>
+                    <NuxtLink class="text-4xl">En savoir plus »</NuxtLink>
                 </p>
 
                 <img src="/moi.gif" class="h-full" />
@@ -20,8 +20,7 @@
         </div>
 
         <!--Section  A Propos-->
-        <div id="a-Propos"
-            class="maw-w-wrapper-sm mx-24 bg-[url('/pixel_tv2.gif')] text-[#212529] font-vt323 flex flex-row space-x-8 p-12">
+        <div id="a-Propos" class="p-8 bg-[url('/pixel_tv2.gif')] text-[#212529] font-vt323 flex flex-row space-x-8 ">
             <div class="flex-1">
                 <h1 class="text-5xl">Un projet scolaire</h1>
                 <p class="my-4 text-xl text-justify">Sokoban Level Generator est un projet conçut dans le cadre de ma
@@ -37,7 +36,7 @@
                 </p>
                 <NuxtLink class="text-xl text-purple-300">Qui suis-je ? >></NuxtLink>
             </div>
-            <div class="flex-1">
+             <div class="flex-1">
                 <h1 class="text-5xl">Un outil pratique</h1>
                 <p class="my-4 text-xl text-justify">Sokoban Level Generator est un projet conçut dans le cadre de ma
                     deuxième année de
@@ -55,7 +54,7 @@
             </div>
             <div class="flex-1">
                 <h1 class="text-5xl">Une documentation accessible</h1>
-                <p class="my-4 text-xl text-justify">Sokoban Level Generator est un projet conçut dans le cadre de ma
+                <p class="my-4 text-xl text-justify mx-">Sokoban Level Generator est un projet conçut dans le cadre de ma
                     Toute la documentation concernant ce projet est libre d'accès. Vous trouverez dans la section du
                     même nom le rapport du projet écrit pour mes professeurs, ainsi que le tutoriel pour coder un jeu de
                     Sokoban, avec importation et exportation de fichier texte, en Javascript écrit pour mon blog
@@ -65,6 +64,7 @@
                     synthétisant de manière plus accessible sur mon blog. </p>
                 <NuxtLink class="text-xl text-purple-300">En savoir plus >></NuxtLink>
             </div>
+           
         </div>
 
         <!--Section  Documentation-->

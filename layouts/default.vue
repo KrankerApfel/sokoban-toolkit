@@ -1,21 +1,12 @@
 ﻿<template>
-    <div class="min-h-dvh overflow-hidden antialiased">
-        <HeaderBase mode="static" />
-
-        <div class="min-h-svh bg-orange-50">
-            <div class="flex flex-col min-h-screen">
-                <NuxtPage />
-            </div>
-        </div>
-       
-        <FooterBase />
+    <div class="antialiased bg-[url('/bkg_main.png')] min-h-screen flex flex-col">
+      <HeaderBase mode="static" />
+  
+      <div class="flex-grow">
+        <NuxtPage />
+      </div>
+  
+      <FooterBase />
     </div>
-</template>
-
-<script lang="ts" setup>
-    const nuxtApp = useNuxtApp()
-
-    nuxtApp.hook("page:finish", () => {
-        if (process.client) window.scrollTo(0, 0)
-    })
-</script>
+  </template>
+  
