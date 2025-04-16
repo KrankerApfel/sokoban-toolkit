@@ -96,7 +96,7 @@
         <!--Section  Et Moi?-->
         <div id="etMoi" class="max-w-wrapper-sm m-24 p-2 pb-8 text-[#fee9fc] font-vt323 border-6 border-[#fee9fc]">
 
-            <div class="border-2 m-8 mr-80 border-[#fee9fc] p-20">
+            <div class="border-2 m-8 mr-60 border-[#fee9fc] p-20 -z-10">
                 <h1 class="text-5xl">- Qui suis-je ? -</h1>
                 <div class="flex flex-row">
                     <p class="text-xl p-8 bg-black mr-[50px] ">
