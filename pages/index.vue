@@ -1,7 +1,7 @@
 <template>
     <div class="m-auto py-24  bg-[url('/bkg_main.png')]">
         <!-- Section Accueil -->
-        <div class="max-w-wrapper-sm m-24 p-2 pb-8 bg-[url('/bkg_home.png')] text-white font-vt323">
+        <div id="accueil" class="max-w-wrapper-sm m-24 p-2 pb-8 bg-[url('/bkg_home.png')] text-white font-vt323">
             <h1 class="text-5xl m-8">-Sokoban Level Generator-</h1>
             <div class="flex flex-row items-end h-1/2 ml-24">
                 <p
@@ -20,7 +20,7 @@
         </div>
 
         <!--Section  A Propos-->
-        <div
+        <div id="a-Propos"
             class="maw-w-wrapper-sm mx-24 bg-[url('/pixel_tv2.gif')] text-[#212529] font-vt323 flex flex-row space-x-8 p-12">
             <div class="flex-1">
                 <h1 class="text-5xl">Un projet scolaire</h1>
@@ -68,7 +68,7 @@
         </div>
 
         <!--Section  Documentation-->
-        <div class="max-w-wrapper-sm m-24 p-2 pb-8 bg-[url('/floor.png')] text-white font-vt323">
+        <div id="doc" class="max-w-wrapper-sm m-24 p-2 pb-8 bg-[url('/floor.png')] text-white font-vt323">
             <div class="flex flex-row items-end m-8">
                 <img class="h-10 object-contain" src="/deco.png" />
                 <h1 class="text-6xl ml-2">Documentation</h1>
@@ -94,7 +94,7 @@
         </div>
 
         <!--Section  Et Moi?-->
-        <div class="max-w-wrapper-sm m-24 p-2 pb-8 text-[#fee9fc] font-vt323 border-6 border-[#fee9fc]">
+        <div id="etMoi" class="max-w-wrapper-sm m-24 p-2 pb-8 text-[#fee9fc] font-vt323 border-6 border-[#fee9fc]">
 
             <div class="border-2 m-8 mr-80 border-[#fee9fc] p-20">
                 <h1 class="text-5xl">- Qui suis-je ? -</h1>
@@ -110,7 +110,7 @@
                     <img src="https://avatars0.githubusercontent.com/u/19972486?s=400&u=c92018a13e1844e050fac4f903e248f43d335625&v=4"
                         alt="photo de profil Github" class="w-50 h-50" />
                    
-                        <div class="mt-[15px] mr-[75px] mb-auto ml-[25px] z-[3]">
+                        <div class="mt-[15px] mr-[75px] mb-auto ml-[25px] ">
                         <p class="bg-[rgba(249,213,213,0.5)] w-[320px] h-[320px] p-[10px] text-xl">
                             C:// T. RKT
                             <br />&raquo; Réalisé en Mars 2018
