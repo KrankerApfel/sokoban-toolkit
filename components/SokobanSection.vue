@@ -12,10 +12,10 @@
 
         <div class="flex flex-col flex-1 space-y-2 aspect-square">
             <h1 class="text-4xl">Sokoban Toolkit</h1>
-            <div class="flex flex-row space-x-2">
+            <!-- <div class="flex flex-row space-x-2">
                 <button class="p-1 bg-[#fee9fc] hover:bg-pink-100">Résoudre</button>
-                <button class="p-1 bg-[#fee9fc] hover:bg-pink-100">Générer</button>
-            </div>
+                <button class="p-1 bg-[#fee9fc] hover:bg-pink-100" >Générer</button>
+            </div> --> 
 
             <ul>
                 <li> R : recommencer le niveau</li>
