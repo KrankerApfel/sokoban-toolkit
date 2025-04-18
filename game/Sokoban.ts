@@ -51,7 +51,7 @@ export class Sokoban {
     this.playerSprite.src = './sprites/me3.png';
 
     this.game = {
-      board: this.textArea.value.replace(/\n/g, '').split(','),
+      board: this.textArea.value.split(','),
       checkWinCondition: () => !this.game.board.includes('$'),
       focusEnter: () => {
         this.gameScreen.focus();
