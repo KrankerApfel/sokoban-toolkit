@@ -1,5 +1,5 @@
 <template>
-    <div id="Toolkit"
+    <div id="toolkit"
         class="flex flex-row items-center space-x-8 p-2 m-24 text-[#1e1e1e] bg-pink-200 max-w-wrapper-sm font-vt323">
         <div class="flex-1">
             <canvas id="gameScreen" class="w-full outline-none aspect-square bg-amber-100 ">
@@ -82,11 +82,9 @@ export default {
                 "_", "_", "_", "_", "#", "#", "#", "_", "_", "_\n"
             ].join(',');
 
-         
+
             const boardArray = textarea.textContent.replace(/\n/g, '').split(',');
 
-            console.log(boardArray);
-            
             const game = {
                 board: boardArray,
                 checkWinCondition: () => false,
@@ -128,6 +126,11 @@ export default {
             importButton.addEventListener('click', () => { fileManager.clickFileInput(); });
             exportButton.addEventListener('click', () => { fileManager.triggerFileDownload(textarea.value, filenameInput.value.trim() || 'niveau.txt'); });
             fileInput.addEventListener('change', () => { fileManager.loadTextFromFile(); });
+            updateButton.addEventListener('click', () => {
+                const newBoard = textarea.value.replace(/\n/g, '').split(',');
+                game.board = newBoard;
+                engine.drawBoard();
+            });
         });
     }
 };

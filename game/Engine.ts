@@ -37,7 +37,7 @@ export class Engine {
       requestAnimationFrame(() => this.drawBoard());
     }
     
-    private drawBoard() {
+    public drawBoard() {
       if (!this.ctx) return;
       
       this.ctx.clearRect(0, 0, 400, 400);
