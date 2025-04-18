@@ -2,7 +2,9 @@
     <div id="Toolkit"
         class="flex flex-row items-center space-x-8 p-2 m-24 text-[#1e1e1e] bg-pink-200 max-w-wrapper-sm font-vt323">
         <div class="flex-1">
-            <canvas id="gameScreen" class="w-full aspect-square bg-amber-100">
+            <canvas id="gameScreen" tabindex="0"
+                class="w-full outline-none aspect-square bg-amber-100 focus:border-2 focus:border-red-500">
+
                 Votre navigateur ne supporte pas canvas, l'application ne peut fonctionner.<br /> Voici une liste non
                 exhaustive des navigateurs supportant cette technologie :
                 <br /> Chrome, Firefox, Opéra, Safari, Konqueror ...
@@ -68,7 +70,8 @@ const game = ref({
 export default {
     setup() {
         onMounted(() => {
-            const gameScreen = document.getElementById('gameScreen') as HTMLCanvasElement;
+
+
             const textarea = document.getElementById('textarea') as HTMLTextAreaElement;
             const updateButton = document.getElementById('btn_update') as HTMLButtonElement;
             const fileInput = document.getElementById('file') as HTMLInputElement;
@@ -76,65 +79,10 @@ export default {
             const exportButton = document.getElementById('btn_upload') as HTMLButtonElement;
             const filenameInput = document.getElementById('uploadedFile') as HTMLInputElement;
 
-            if (!gameScreen || !textarea || !updateButton || !fileInput || !importButton || !exportButton) return;
-
-            // Initialisation du contexte du canvas
-            const ctx = gameScreen.getContext('2d');
-            if (!ctx) return;
-
-            const tileSize = 40; // Taille des tuiles, ajuste selon ton besoin
-
-            // Fonction pour dessiner le tableau sur le canvas
-            const drawBoard = () => {
-                const board = textarea.value.split('\n').map(row => row.split(''));
-                game.value.board = board; // Met à jour le board avec le contenu du textarea
-
-                ctx.clearRect(0, 0, gameScreen.width, gameScreen.height); // Nettoie l'écran
-
-                board.forEach((row, y) => {
-                    row.forEach((cell, x) => {
-                        const spritePath = getTileSprite(cell); // Récupère le chemin du sprite correspondant à la case
-                        const img = new Image();
-                        img.src = spritePath; // Charge l'image de la tuile
-
-                        // Lorsque l'image est chargée, on la dessine sur le canvas
-                        img.onload = () => {
-                            ctx.drawImage(img, x * tileSize, y * tileSize, tileSize, tileSize); // Dessine l'image à la position calculée
-                        };
-                    });
-                });
-            };
 
 
-            const getTileSprite = (tile: string): string => {
-                switch (tile) {
-                    case '#':
-                        return './sprites/wall.png'; // Mur
-                    case '_':
-                        return './sprites/floor.png'; // Sol
-                    case '.':
-                        return './sprites/target.png'; // Objectif
-                    case '*':
-                        return './sprites/box01.png'; // Boîte
-                    case '$':
-                        return './sprites/box00.png'; // Boîte sur objectif
-                    case '@':
-                        return './sprites/me3.png'; // Joueur
-                    default:
-                        return './sprites/floor.png'; // Sol par défaut
-                }
-            };
+            if (!textarea || !updateButton || !fileInput || !importButton || !exportButton) return;
 
-
-            // Met à jour le tableau lorsque le bouton "Actualiser" est cliqué
-            updateButton.addEventListener('click', drawBoard);
-
-            // Redimensionner le canvas
-            gameScreen.width = 400;
-            gameScreen.height = 400;
-
-            // Dessiner initialement
-            drawBoard();
 
             // Gérer l'importation de fichier
             importButton.addEventListener('click', () => {
@@ -148,7 +96,6 @@ export default {
                     reader.onload = (e: ProgressEvent<FileReader>) => {
                         if (typeof e.target?.result === 'string') {
                             textarea.value = e.target.result;
-                            drawBoard(); // Met à jour le canvas avec le fichier importé
                         }
                     };
                     reader.readAsText(file);
