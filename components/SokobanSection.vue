@@ -2,8 +2,7 @@
     <div id="Toolkit"
         class="flex flex-row items-center space-x-8 p-2 m-24 text-[#1e1e1e] bg-pink-200 max-w-wrapper-sm font-vt323">
         <div class="flex-1">
-            <canvas id="gameScreen" 
-                class="w-full outline-none aspect-square bg-amber-100 ">
+            <canvas id="gameScreen" class="w-full outline-none aspect-square bg-amber-100 ">
 
                 Votre navigateur ne supporte pas canvas, l'application ne peut fonctionner.<br /> Voici une liste non
                 exhaustive des navigateurs supportant cette technologie :
@@ -58,12 +57,11 @@
 
 import { onMounted } from 'vue';
 import { Engine } from '~/game/Engine';
+import { FileManager } from '~/game/FileManager';
 
 export default {
     setup() {
         onMounted(() => {
-
-
             const textarea = document.getElementById('textarea') as HTMLTextAreaElement;
             const updateButton = document.getElementById('btn_update') as HTMLButtonElement;
             const fileInput = document.getElementById('file') as HTMLInputElement;
@@ -71,23 +69,29 @@ export default {
             const exportButton = document.getElementById('btn_upload') as HTMLButtonElement;
             const filenameInput = document.getElementById('uploadedFile') as HTMLInputElement;
             const gameScreen = document.getElementById('gameScreen') as HTMLCanvasElement;
+
             const game = {
                 board: [
-                    "_","_","_","#","#","#","_","_","_","_",
-                    "_","_","_","#",".","#","_","_","_","_",
-                    "_","_","_","#","_","#","#","#","#","#",
-                    "#","#","#","#","$","_","$","_",".","#",
-                    "#",".","_","_","$","@","#","#","#","#",
-                    "#","#","#","#","#","$","#","_","_","_",
-                    "_","_","_","_","#","_","#","_","_","_",
-                    "_","_","_","_","#","_","#","_","_","_",
-                    "_","_","_","_","#",".","#","_","_","_",
-                    "_","_","_","_","#","#","#","_","_","_"
-                   ],
+                    "_", "_", "_", "#", "#", "#", "_", "_", "_", "_",
+                    "_", "_", "_", "#", ".", "#", "_", "_", "_", "_",
+                    "_", "_", "_", "#", "_", "#", "#", "#", "#", "#",
+                    "#", "#", "#", "#", "$", "_", "$", "_", ".", "#",
+                    "#", ".", "_", "_", "$", "@", "#", "#", "#", "#",
+                    "#", "#", "#", "#", "#", "$", "#", "_", "_", "_",
+                    "_", "_", "_", "_", "#", "_", "#", "_", "_", "_",
+                    "_", "_", "_", "_", "#", "_", "#", "_", "_", "_",
+                    "_", "_", "_", "_", "#", ".", "#", "_", "_", "_",
+                    "_", "_", "_", "_", "#", "#", "#", "_", "_", "_"
+                ],
 
                 checkWinCondition: () => false,
-                focusEnter: () => gameScreen.style.border = "2px solid red",
-                focusExit: () => gameScreen.style.border = "1px solid black",
+                focusEnter: () => {
+                    gameScreen.focus(); // Important : canvas doit avoir tabindex="0"
+                    gameScreen.style.border = "2px solid red";
+                },
+                focusExit: () => {
+                    gameScreen.style.border = "1px solid black";
+                },
                 keyEvent: (key, isPressed) => console.log("Key:", key, "Pressed:", isPressed)
             };
 
@@ -107,47 +111,18 @@ export default {
             const playerSprite = new Image();
             playerSprite.src = "./sprites/me3.png";
 
-            const engine = new Engine(game, images, 30, 15, 10,10 , playerSprite);
+            const engine = new Engine(game, images, 30, 15, 10, 10, playerSprite);
             engine.init();
-
-
 
             if (!textarea || !updateButton || !fileInput || !importButton || !exportButton) return;
 
 
-            // Gérer l'importation de fichier
-            importButton.addEventListener('click', () => {
-                fileInput.click();
-            });
 
-            fileInput.addEventListener('change', () => {
-                const file = fileInput.files?.[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = (e: ProgressEvent<FileReader>) => {
-                        if (typeof e.target?.result === 'string') {
-                            textarea.value = e.target.result;
-                        }
-                    };
-                    reader.readAsText(file);
-                }
-            });
-
-            // Gérer l'exportation du fichier
-            exportButton.addEventListener('click', () => {
-                const text = textarea.value;
-                const filename = filenameInput.value.trim() || 'niveau.txt';
-
-                const blob = new Blob([text], { type: 'text/plain' });
-                const url = URL.createObjectURL(blob);
-
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = filename;
-                a.click();
-
-                URL.revokeObjectURL(url);
-            });
+            // File Management
+            const fileManager = new FileManager(textarea, fileInput, filenameInput);
+            importButton.addEventListener('click', () => { fileManager.clickFileInput(); });
+            exportButton.addEventListener('click', () => { fileManager.triggerFileDownload(textarea.value, filenameInput.value.trim() || 'niveau.txt'); });
+            fileInput.addEventListener('change', () => { fileManager.loadTextFromFile(); });
         });
     }
 };
