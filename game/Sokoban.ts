@@ -66,6 +66,35 @@ export class Sokoban {
     };
   }
 
+  private loadImage(src: string): Promise<HTMLImageElement> {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => resolve(img);
+      img.onerror = reject;
+      img.src = src;
+    });
+  }
+
+  public async init() {
+    const [wal, flr, tar, bor, bog, playerSprite] = await Promise.all([
+      this.loadImage('./sprites/wall.png'),
+      this.loadImage('./sprites/floor.png'),
+      this.loadImage('./sprites/target.png'),
+      this.loadImage('./sprites/box00.png'),
+      this.loadImage('./sprites/box01.png'),
+      this.loadImage('./sprites/me3.png'),
+    ]);
+
+    const images = { wal, flr, tar, bor, bog };
+    this.playerSprite = playerSprite;
+
+    this.engine = new Engine(this.game, images, 30, 15, 10, 10, this.playerSprite);
+    this.engine.init();
+
+    this.player = new Player(this.game.board);
+    this.player.initPos(this.game.board);
+  }
+
   public checkWinCondition(): boolean {
     return !this.game.board.includes('$');
   }

@@ -12,10 +12,10 @@
 
         <div class="flex flex-col flex-1 space-y-2 aspect-square">
             <h1 class="text-4xl">Sokoban Toolkit</h1>
-            <!-- <div class="flex flex-row space-x-2">
-                <button class="p-1 bg-[#fee9fc] hover:bg-pink-100">Résoudre</button>
-                <button class="p-1 bg-[#fee9fc] hover:bg-pink-100" >Générer</button>
-            </div> --> 
+            <div class="flex flex-row space-x-2">
+                <button class="p-1 bg-[#fee9fc] hover:bg-pink-100 disabled:text-gray" disabled>Résoudre</button>
+                <button class="p-1 bg-[#fee9fc] hover:bg-pink-100">Générer</button>
+            </div>
 
             <ul>
                 <li> R : recommencer le niveau</li>
@@ -60,6 +60,7 @@ import { Sokoban } from '~/game/Sokoban';
 
 export default {
     setup() {
+
         onMounted(async () => {
             const gameScreen = document.getElementById('gameScreen') as HTMLCanvasElement;
             const textarea = document.getElementById('textarea') as HTMLTextAreaElement;
@@ -69,7 +70,7 @@ export default {
             const importButton = document.querySelector('input[value="Importer"]') as HTMLInputElement;
             const exportButton = document.getElementById('btn_upload') as HTMLButtonElement;
             const filenameInput = document.getElementById('uploadedFile') as HTMLInputElement;
-           
+
             const sokoban = new Sokoban(gameScreen, textarea);
             await sokoban.init(); 
 
@@ -84,7 +85,6 @@ export default {
                 }
             });
 
-
             // === File Management ===
             const fileManager = new FileManager(textarea, fileInput, filenameInput);
             importButton.addEventListener('click', () => fileManager.clickFileInput());
@@ -96,6 +96,7 @@ export default {
                 sokoban.updateBoardFromTextArea();
             });
         });
+
     }
 };
 </script>
