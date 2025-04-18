@@ -150,26 +150,42 @@ export default {
             }
 
             // //Move To function
-            // Move To function
             function moveTo(x: number, y: number): void {
                 // Récupère la case vers laquelle on veut se déplacer
                 const sourcePosition = player.getFuturPosition(0, 0);
                 const targetPosition = player.getFuturPosition(x, y);
-                const cell = game.board[targetPosition];
+                const behindTargetPosition = player.getFuturPosition(x * 2, y * 2);
+                const targetCell = game.board[targetPosition];
+                const behindTargetCell = game.board[behindTargetPosition];
 
                 // Vérifie si la case cible est traversable
-                if (['_', '.', '$', '*'].includes(cell)) {
+                if (['_', '.', '$', '*'].includes(targetCell)) {
 
-
-                    // Déplacer le joueur vers la case vide
-                    game.board[sourcePosition] = player.under; // Laisser l'endroit précédent vide
-                    game.board[targetPosition] = "@"; // Déplacer le joueur sur la case cible
-                    player.under = game.board[sourcePosition] ; // Le joueur prend la valeur de l'ancienne case
-
+                    if (targetCell === '$') {
+                        if (['$', '#'].includes(behindTargetCell))
+                            return;
+                        
+                        
+                        game.board[behindTargetPosition] = ['.'].includes(behindTargetCell) ? '*': targetCell;
+                    }
+                    game.board[sourcePosition] = player.under;
+                    game.board[targetPosition] = "@";
+                    player.under = game.board[sourcePosition];
 
                     // Mise à jour de la position du joueur (sur le tableau de jeu)
                     player.setX(player.x + x);
                     player.setY(player.y + y);
+
+
+
+                    // // Déplacer le joueur vers la case vide
+                    // game.board[sourcePosition] = player.under;
+                    // game.board[targetPosition] = "@";
+                    // player.under = game.board[sourcePosition];
+
+                    // // Mise à jour de la position du joueur (sur le tableau de jeu)
+                    // player.setX(player.x + x);
+                    // player.setY(player.y + y);
 
                     // Met à jour le rendu du jeu après déplacement
                     engine.drawBoard();
