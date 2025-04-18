@@ -34,10 +34,11 @@
       return img;
     }
   
-    initPos(board: string[]): void {
+    public initPos(board: string[]): void {
       const index = board.indexOf('@');
       this.setX((index + 1) % mapW || mapW);
       this.setY(Math.trunc((index + 1) / mapW) + 1);
+      this.setSprite(40);
     }
   
     setX(posX: number): void {

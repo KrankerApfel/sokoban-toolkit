@@ -165,11 +165,12 @@ export default {
 
                     // On pousse la caisse vers la cellule suivante
                     game.board[next] = nextCell === '.' ? '*' : '$';
+                    game.board[target] = cell === '$' ? '_' : '.';
                 }
 
                 // Déplacement du joueur
                 game.board[source] = player.under;
-                player.under = cell === '*' ? '.' : '_'; // Si le joueur marchait sur une cible
+                player.under = game.board[target];
                 game.board[target] = '@';
 
                 player.setX(player.x + dx);
@@ -189,6 +190,7 @@ export default {
             fileInput.addEventListener('change', () => fileManager.loadTextFromFile());
             updateButton.addEventListener('click', () => {
                 game.board = textarea.value.replace(/\n/g, '').split(',');
+                player.initPos(game.board);
                 engine.drawBoard();
             });
         });
