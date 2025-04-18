@@ -60,8 +60,7 @@ import { Sokoban } from '~/game/Sokoban';
 
 export default {
     setup() {
-
-        onMounted(async () => {
+        onMounted(() => {
             const gameScreen = document.getElementById('gameScreen') as HTMLCanvasElement;
             const textarea = document.getElementById('textarea') as HTMLTextAreaElement;
 
@@ -70,9 +69,8 @@ export default {
             const importButton = document.querySelector('input[value="Importer"]') as HTMLInputElement;
             const exportButton = document.getElementById('btn_upload') as HTMLButtonElement;
             const filenameInput = document.getElementById('uploadedFile') as HTMLInputElement;
-
+           
             const sokoban = new Sokoban(gameScreen, textarea);
-            await sokoban.init(); // ✅ ça fonctionne maintenant
 
             // Initialiser le niveau dans le textarea
             textarea.value = sokoban.boardState.join(',');
@@ -82,6 +80,7 @@ export default {
             gameScreen.addEventListener('keydown', (e) => {
                 sokoban.keyEvent(e.keyCode, true);
             });
+
 
             // === File Management ===
             const fileManager = new FileManager(textarea, fileInput, filenameInput);
@@ -94,7 +93,6 @@ export default {
                 sokoban.updateBoardFromTextArea();
             });
         });
-
     }
 };
 </script>
