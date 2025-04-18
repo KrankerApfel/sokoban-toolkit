@@ -60,7 +60,7 @@ import { Sokoban } from '~/game/Sokoban';
 
 export default {
     setup() {
-        onMounted(() => {
+        onMounted(async () => {
             const gameScreen = document.getElementById('gameScreen') as HTMLCanvasElement;
             const textarea = document.getElementById('textarea') as HTMLTextAreaElement;
 
@@ -71,6 +71,7 @@ export default {
             const filenameInput = document.getElementById('uploadedFile') as HTMLInputElement;
            
             const sokoban = new Sokoban(gameScreen, textarea);
+            await sokoban.init(); 
 
             // Initialiser le niveau dans le textarea
             textarea.value = sokoban.boardState.join(',');
@@ -78,7 +79,9 @@ export default {
 
             // Gestion clavier
             gameScreen.addEventListener('keydown', (e) => {
-                sokoban.keyEvent(e.keyCode, true);
+                if (!e.repeat) {
+                    sokoban.keyEvent(e.keyCode, true);
+                }
             });
 
 

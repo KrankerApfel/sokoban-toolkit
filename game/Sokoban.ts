@@ -64,13 +64,6 @@ export class Sokoban {
         this.keyEvent(key, isPressed);
       }
     };
-
-    this.engine = new Engine(this.game, images, 30, 15, 10, 10, this.playerSprite);
-    this.engine.init();
-
-    this.player = new Player(this.game.board);
-    this.player.initPos(this.game.board);
-
   }
 
   public checkWinCondition(): boolean {
