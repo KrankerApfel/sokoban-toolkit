@@ -39,6 +39,7 @@
       this.setX((index + 1) % mapW || mapW);
       this.setY(Math.trunc((index + 1) / mapW) + 1);
       this.setSprite(40);
+      this.under = '_';
     }
   
     setX(posX: number): void {

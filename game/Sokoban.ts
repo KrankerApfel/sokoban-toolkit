@@ -120,9 +120,15 @@ export class Sokoban {
       this.game.board[next] = nextCell === '.' ? '*' : '$';
       this.game.board[target] = cell === '$' ? '_' : '.';
     }
+  
 
     this.game.board[source] = this.player.under;
-    this.player.under = cell === '*' ? '.' : '_';
+    
+    if (cell ==='.')
+      this.player.under = cell;
+    else 
+        this.player.under = cell === '*' ? '.' : '_';
+    
     this.game.board[target] = '@';
 
     this.player.setX(this.player.x + dx);
