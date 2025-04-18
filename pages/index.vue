@@ -1,10 +1,15 @@
+<script setup lang="ts">
+import SokobanSection from '../components/SokobanSection.vue';
+
+</script>
+
 <template>
-    <div class="m-auto py-24">
+    <div class="py-24 m-auto">
         <!-- Section Accueil -->
         <div id="accueil" class="h-screen p-2 pb-8 bg-[url('/bkg_home.png')] text-white font-vt323">
-            <h1 class="text-4xl m-8">-Sokoban Level Generator-</h1>
+            <h1 class="m-8 text-4xl">-Sokoban Level Generator-</h1>
 
-            <div class="flex flex-row  h-1/2 ml-24">
+            <div class="flex flex-row ml-24 h-1/2">
                 <p class="bg-black border-2 border-[#Fee9fc] text-[#fee9fc] text-lg p-8 w-1/2 flex flex-col ">
                     Sokoban est un casse-tête japonais populaire dans les années 80. On y incarne un gardien d'entrepôt
                     qui doit ranger ses caisses à des emplacements précis dans un dédale de murs uniquement en les
@@ -14,7 +19,6 @@
                     <br /><br />
                     <NuxtLink class="text-4xl">En savoir plus »</NuxtLink>
                 </p>
-
                 <img src="/moi.gif" class="h-full" />
             </div>
         </div>
@@ -67,11 +71,14 @@
            
         </div>
 
+        <!--Section Toolkit-->
+        <SokobanSection></SokobanSection>
+
         <!--Section  Documentation-->
         <div id="doc" class="max-w-wrapper-sm m-24 p-2 pb-8 bg-[url('/floor.png')] text-white font-vt323">
             <div class="flex flex-row items-end m-8">
-                <img class="h-10 object-contain" src="/deco.png" />
-                <h1 class="text-6xl ml-2">Documentation</h1>
+                <img class="object-contain h-10" src="/deco.png" />
+                <h1 class="ml-2 text-6xl">Documentation</h1>
             </div>
 
 
@@ -108,7 +115,7 @@
                     </p>
                    
                     <img src="https://avatars0.githubusercontent.com/u/19972486?s=400&u=c92018a13e1844e050fac4f903e248f43d335625&v=4"
-                        alt="photo de profil Github" class="w-50 h-50 mt-12" />
+                        alt="photo de profil Github" class="mt-12 w-50 h-50" />
                    
                         <div class="mt-[-32px] mr-[75px] mb-auto ml-[25px] ">
                         <p class="bg-[rgba(249,213,213,0.5)] w-[320px] h-[320px] p-[10px] text-xl">
@@ -116,19 +123,14 @@
                             <br />&raquo; Réalisé en Mars 2018
                             <br />Développeur web, logiciel et illustrateur 2D
                             <br /><br />
-                            <br />い. <a href="https://www.linkedin.com/in/tomrakotomanampison/" style="color:#fee9fc;">LinkedIn 
-                            </a>
+                            <br />い. <a href="https://www.linkedin.com/in/tomrakotomanampison/" style="color:#fee9fc;">LinkedIn</a>
                             <br />ろ. <a href="https://krankerapfel.github.io" style="color:#fee9fc;">Porfolio</a>
                             <br />は. t.rakoto76 @ gmail.com
-
                         </p>
                     </div>
                 </div>
-
             </div>
-
         </div>
-
     </div>
 </template>
 
