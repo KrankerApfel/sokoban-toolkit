@@ -63,13 +63,15 @@ export default {
     setup() {
         onMounted(() => {
             // === DOM Elements ===
+            const gameScreen = document.getElementById('gameScreen') as HTMLCanvasElement;
             const textarea = document.getElementById('textarea') as HTMLTextAreaElement;
+            
             const updateButton = document.getElementById('btn_update') as HTMLButtonElement;
             const fileInput = document.getElementById('file') as HTMLInputElement;
             const importButton = document.querySelector('input[value="Importer"]') as HTMLInputElement;
             const exportButton = document.getElementById('btn_upload') as HTMLButtonElement;
             const filenameInput = document.getElementById('uploadedFile') as HTMLInputElement;
-            const gameScreen = document.getElementById('gameScreen') as HTMLCanvasElement;
+         
 
             // === Initial Game Board ===
             const defaultLevel = [
@@ -91,7 +93,7 @@ export default {
             // === Game Object ===
             const game = {
                 board: boardArray,
-                checkWinCondition: () => false,
+                checkWinCondition: () => !game.board.includes('$'),
                 focusEnter: () => {
                     gameScreen.focus();
                     gameScreen.style.border = '2px solid red';

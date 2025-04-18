@@ -76,7 +76,7 @@ export class Engine {
       if (this.game.checkWinCondition()) {
         this.ctx.fillStyle = "#00A";
         this.ctx.font = "40px Arial";
-        this.ctx.fillText("- SOLVED -", 100, 235);
+        this.ctx.fillText("- SOLVED -", 50, 70);
       }
     }
   
