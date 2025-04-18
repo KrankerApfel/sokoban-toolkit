@@ -62,6 +62,8 @@ import { FileManager } from '~/game/FileManager';
 export default {
     setup() {
         onMounted(() => {
+
+            // init const
             const textarea = document.getElementById('textarea') as HTMLTextAreaElement;
             const updateButton = document.getElementById('btn_update') as HTMLButtonElement;
             const fileInput = document.getElementById('file') as HTMLInputElement;
@@ -69,6 +71,8 @@ export default {
             const exportButton = document.getElementById('btn_upload') as HTMLButtonElement;
             const filenameInput = document.getElementById('uploadedFile') as HTMLInputElement;
             const gameScreen = document.getElementById('gameScreen') as HTMLCanvasElement;
+
+            // init game
             textarea.textContent = [
                 "_", "_", "_", "#", "#", "#", "_", "_", "_", "_\n",
                 "_", "_", "_", "#", ".", "#", "_", "_", "_", "_\n",
@@ -117,9 +121,10 @@ export default {
             const engine = new Engine(game, images, 30, 15, 10, 10, playerSprite);
             engine.init();
 
-            if (!textarea || !updateButton || !fileInput || !importButton || !exportButton) return;
 
-
+            // GAME CORE
+            
+            // END GAME CORE
 
             // File Management
             const fileManager = new FileManager(textarea, fileInput, filenameInput);
