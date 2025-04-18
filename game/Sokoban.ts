@@ -1,34 +1,80 @@
 import { Player } from "./Player";
+import { Engine } from "./Engine";
 
 export class Sokoban {
-  private board: string[];
   private player: Player;
+  private playerSprite: HTMLImageElement;
+  private engine: Engine;
+  private game: {
+    board: string[],
+    checkWinCondition: () => boolean,
+    focusEnter: () => void,
+    focusExit: () => void,
+    keyEvent: (key: number, isPressed: boolean) => void
+  };
 
   constructor(
     private gameScreen: HTMLCanvasElement,
     private textArea: HTMLTextAreaElement,
-    private playerSprite: HTMLImageElement,
-    private engine: { drawBoard: () => void }
   ) {
     const defaultLevel = [
-      "_", "_", "_", "#", "#", "#", "_", "_", "_", "_",
-      "_", "_", "_", "#", ".", "#", "_", "_", "_", "_",
-      "_", "_", "_", "#", "_", "#", "#", "#", "#", "#",
-      "#", "#", "#", "#", "$", "_", "$", "_", ".", "#",
-      "#", ".", "_", "_", "$", "@", "#", "#", "#", "#",
-      "#", "#", "#", "#", "#", "$", "#", "_", "_", "_",
-      "_", "_", "_", "_", "#", "_", "#", "_", "_", "_",
-      "_", "_", "_", "_", "#", "_", "#", "_", "_", "_",
-      "_", "_", "_", "_", "#", ".", "#", "_", "_", "_",
-      "_", "_", "_", "_", "#", "#", "#", "_", "_", "_"
+      "_", "_", "_", "#", "#", "#", "_", "_", "_", "_\n",
+      "_", "_", "_", "#", ".", "#", "_", "_", "_", "_\n",
+      "_", "_", "_", "#", "_", "#", "#", "#", "#", "#\n",
+      "#", "#", "#", "#", "$", "_", "$", "_", ".", "#\n",
+      "#", ".", "_", "_", "$", "@", "#", "#", "#", "#\n",
+      "#", "#", "#", "#", "#", "$", "#", "_", "_", "_\n",
+      "_", "_", "_", "_", "#", "_", "#", "_", "_", "_\n",
+      "_", "_", "_", "_", "#", "_", "#", "_", "_", "_\n",
+      "_", "_", "_", "_", "#", ".", "#", "_", "_", "_\n",
+      "_", "_", "_", "_", "#", "#", "#", "_", "_", "_\n"
     ];
+
+    this.textArea.value = defaultLevel.join(','); 
     
-    this.board = [...defaultLevel];
-    this.player = new Player(this.board);
+
+    const images: Record<string, HTMLImageElement> = {
+      wal: new Image(),
+      flr: new Image(),
+      tar: new Image(),
+      bor: new Image(),
+      bog: new Image()
+    };
+
+    images.wal.src = './sprites/wall.png';
+    images.flr.src = './sprites/floor.png';
+    images.tar.src = './sprites/target.png';
+    images.bor.src = './sprites/box00.png';
+    images.bog.src = './sprites/box01.png';
+
+    this.playerSprite = new Image();
+    this.playerSprite.src = './sprites/me3.png';
+
+    this.game = {
+      board: this.textArea.value.replace(/\n/g, '').split(','),
+      checkWinCondition: () => !this.game.board.includes('$'),
+      focusEnter: () => {
+        this.gameScreen.focus();
+        this.gameScreen.style.border = '2px solid red';
+      },
+      focusExit: () => {
+        this.gameScreen.style.border = '1px solid black';
+      },
+      keyEvent: (key: number, isPressed: boolean) => {
+        this.keyEvent(key, isPressed);
+      }
+    };
+
+    this.engine = new Engine(this.game, images, 30, 15, 10, 10, this.playerSprite);
+    this.engine.init();
+
+    this.player = new Player(this.game.board);
+    this.player.initPos(this.game.board);
+
   }
 
   public checkWinCondition(): boolean {
-    return !this.board.includes('$');
+    return !this.game.board.includes('$');
   }
 
   public focusEnter() {
@@ -63,36 +109,37 @@ export class Sokoban {
     const target = this.player.getFuturPosition(dx, dy);
     const next = this.player.getFuturPosition(dx * 2, dy * 2);
 
-    const cell = this.board[target];
-    const nextCell = this.board[next];
+    const cell = this.game.board[target];
+    const nextCell = this.game.board[next];
 
-    // Si la cellule ciblée n'est ni vide, ni une cible, ni une caisse, on ne bouge pas
     if (!['_', '.', '$', '*'].includes(cell)) return;
 
-    // Tentative de poussée de caisse
     if (cell === '$' || cell === '*') {
-      // Si derrière la caisse c'est un mur, une autre caisse, ou une caisse sur une cible : on bloque
       if (['#', '$', '*'].includes(nextCell)) return;
 
-      // On pousse la caisse vers la cellule suivante
-      this.board[next] = nextCell === '.' ? '*' : '$';
-      this.board[target] = cell === '$' ? '_' : '.';
+      this.game.board[next] = nextCell === '.' ? '*' : '$';
+      this.game.board[target] = cell === '$' ? '_' : '.';
     }
 
-    // Déplacement du joueur
-    this.board[source] = this.player.under;
+    this.game.board[source] = this.player.under;
     this.player.under = cell === '*' ? '.' : '_';
-    this.board[target] = '@';
+    this.game.board[target] = '@';
 
     this.player.setX(this.player.x + dx);
     this.player.setY(this.player.y + dy);
 
     this.engine.drawBoard();
-
-    console.log(this.board);
+    console.log(this.game.board);
   }
 
   public get boardState(): string[] {
-    return this.board;
+    return this.game.board;
   }
+
+  public updateBoardFromTextArea() {
+    this.game.board = this.textArea.value.replace(/\n/g, '').split(',');
+    this.player.initPos(this.game.board);
+    this.engine.drawBoard();
+  }
+
 }
