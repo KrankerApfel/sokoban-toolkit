@@ -69,21 +69,26 @@ export default {
             const exportButton = document.getElementById('btn_upload') as HTMLButtonElement;
             const filenameInput = document.getElementById('uploadedFile') as HTMLInputElement;
             const gameScreen = document.getElementById('gameScreen') as HTMLCanvasElement;
+            textarea.textContent = [
+                "_", "_", "_", "#", "#", "#", "_", "_", "_", "_\n",
+                "_", "_", "_", "#", ".", "#", "_", "_", "_", "_\n",
+                "_", "_", "_", "#", "_", "#", "#", "#", "#", "#\n",
+                "#", "#", "#", "#", "$", "_", "$", "_", ".", "#\n",
+                "#", ".", "_", "_", "$", "@", "#", "#", "#", "#\n",
+                "#", "#", "#", "#", "#", "$", "#", "_", "_", "_\n",
+                "_", "_", "_", "_", "#", "_", "#", "_", "_", "_\n",
+                "_", "_", "_", "_", "#", "_", "#", "_", "_", "_\n",
+                "_", "_", "_", "_", "#", ".", "#", "_", "_", "_\n",
+                "_", "_", "_", "_", "#", "#", "#", "_", "_", "_\n"
+            ].join(',');
 
+         
+            const boardArray = textarea.textContent.replace(/\n/g, '').split(',');
+
+            console.log(boardArray);
+            
             const game = {
-                board: [
-                    "_", "_", "_", "#", "#", "#", "_", "_", "_", "_",
-                    "_", "_", "_", "#", ".", "#", "_", "_", "_", "_",
-                    "_", "_", "_", "#", "_", "#", "#", "#", "#", "#",
-                    "#", "#", "#", "#", "$", "_", "$", "_", ".", "#",
-                    "#", ".", "_", "_", "$", "@", "#", "#", "#", "#",
-                    "#", "#", "#", "#", "#", "$", "#", "_", "_", "_",
-                    "_", "_", "_", "_", "#", "_", "#", "_", "_", "_",
-                    "_", "_", "_", "_", "#", "_", "#", "_", "_", "_",
-                    "_", "_", "_", "_", "#", ".", "#", "_", "_", "_",
-                    "_", "_", "_", "_", "#", "#", "#", "_", "_", "_"
-                ],
-
+                board: boardArray,
                 checkWinCondition: () => false,
                 focusEnter: () => {
                     gameScreen.focus(); // Important : canvas doit avoir tabindex="0"
