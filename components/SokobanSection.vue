@@ -58,6 +58,7 @@
 import { onMounted } from 'vue';
 import { Engine } from '~/game/Engine';
 import { FileManager } from '~/game/FileManager';
+import { Player } from '~/game/Player';
 
 export default {
     setup() {
@@ -99,7 +100,7 @@ export default {
                 focusExit: () => {
                     gameScreen.style.border = "1px solid black";
                 },
-                keyEvent: (key, isPressed) => console.log("Key:", key, "Pressed:", isPressed)
+                keyEvent: (key, isPressed) => { movePlayer(key, isPressed) }
             };
 
             const images: Record<string, HTMLImageElement> = {
@@ -120,10 +121,35 @@ export default {
 
             const engine = new Engine(game, images, 30, 15, 10, 10, playerSprite);
             engine.init();
-
+            
+            const player = new Player(game);
 
             // GAME CORE
-            
+            function movePlayer(key, isPressed) {
+
+                let dirMap = {
+                    37: [-1, 0],
+                    38: [0, -1],
+                    39: [1, 0],
+                    40: [0, 1],
+                };
+                if (isPressed) {
+                    if (key >= 37 && key <= 40) {
+                        player.setSprite(key);
+                        playerSprite.src = player.getSprite().src;
+                        // game.moveTo(dirMap[keyCode][0], dirMap[keyCode][1]);
+                    }
+                    // else if (key == 82) {
+                    //     game.restart();
+                    // }
+                    // else if (key == 85) {
+                    //     game.undoLastPush();
+                    // }
+                    engine.drawBoard();
+                }
+
+                console.log("Key pressed:", key)
+            }
             // END GAME CORE
 
             // File Management
