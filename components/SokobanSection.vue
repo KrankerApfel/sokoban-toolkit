@@ -121,8 +121,8 @@ export default {
 
             const engine = new Engine(game, images, 30, 15, 10, 10, playerSprite);
             engine.init();
-            
-            const player = new Player(game);
+
+            const player = new Player(game.board);
 
             // GAME CORE
             function movePlayer(key, isPressed) {
@@ -137,7 +137,7 @@ export default {
                     if (key >= 37 && key <= 40) {
                         player.setSprite(key);
                         playerSprite.src = player.getSprite().src;
-                        // game.moveTo(dirMap[keyCode][0], dirMap[keyCode][1]);
+                        moveTo(dirMap[key][0], dirMap[key][1]);
                     }
                     // else if (key == 82) {
                     //     game.restart();
@@ -147,9 +147,38 @@ export default {
                     // }
                     engine.drawBoard();
                 }
-
-                console.log("Key pressed:", key)
             }
+
+            // //Move To function
+            // Move To function
+            function moveTo(x: number, y: number): void {
+                // Récupère la case vers laquelle on veut se déplacer
+                const sourcePosition = player.getFuturPosition(0, 0);
+                const targetPosition = player.getFuturPosition(x, y);
+                const cell = game.board[targetPosition];
+
+                // Vérifie si la case cible est traversable
+                if (['_', '.', '$', '*'].includes(cell)) {
+
+
+                    // Déplacer le joueur vers la case vide
+                    game.board[sourcePosition] = player.under; // Laisser l'endroit précédent vide
+                    game.board[targetPosition] = "@"; // Déplacer le joueur sur la case cible
+                    player.under = game.board[sourcePosition] ; // Le joueur prend la valeur de l'ancienne case
+
+
+                    // Mise à jour de la position du joueur (sur le tableau de jeu)
+                    player.setX(player.x + x);
+                    player.setY(player.y + y);
+
+                    // Met à jour le rendu du jeu après déplacement
+                    engine.drawBoard();
+                    console.log(game.board);
+                }
+            }
+
+
+
             // END GAME CORE
 
             // File Management

@@ -9,8 +9,8 @@
     sprite: HTMLImageElement;
     private spriteDict: Record<number, HTMLImageElement>;
   
-    constructor(game) {
-      const index = game.board.indexOf('@');
+    constructor(board : string[]) {
+      const index = board.indexOf('@');
       this.x = (index + 1) % mapW || mapW;
       this.y = Math.trunc((index + 1) / mapW) + 1;
       this.under = "_";
@@ -34,8 +34,8 @@
       return img;
     }
   
-    initPos(): void {
-      const index = game.board.indexOf('@');
+    initPos(board: string[]): void {
+      const index = board.indexOf('@');
       this.setX((index + 1) % mapW || mapW);
       this.setY(Math.trunc((index + 1) / mapW) + 1);
     }
@@ -54,13 +54,11 @@
       }
     }
   
-    canMoveTo(dirX: number, dirY: number): boolean {
+    public getFuturPosition(dirX: number, dirY: number): number {
       const targetX = this.x + dirX - 1;
       const targetY = this.y + dirY - 1;
       const cellIndex = targetY * mapW + targetX;
-  
-      const cell = game.board[cellIndex];
-      return ['_', '.', '$', '*'].includes(cell);
+      return cellIndex;
     }
   }
   
