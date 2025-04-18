@@ -56,16 +56,8 @@
 
 <script lang="ts">
 
-import { onMounted, ref } from 'vue';
-
-// Exemple d'objet game
-const game = ref({
-    board: ['#', '_', '.', '*', '$', '+', '@'], // Exemple simplifié
-    checkWinCondition: () => false, // À ajuster selon ta logique de victoire
-    focusEnter: () => console.log('Focus Entré'),
-    focusExit: () => console.log('Focus Sorti'),
-    keyEvent: (keyCode: number, isPressed: boolean) => console.log(`Key: ${keyCode}, Pressed: ${isPressed}`)
-});
+import { onMounted } from 'vue';
+import { Engine } from '~/game/Engine';
 
 export default {
     setup() {
@@ -78,6 +70,45 @@ export default {
             const importButton = document.querySelector('input[value="Importer"]') as HTMLInputElement;
             const exportButton = document.getElementById('btn_upload') as HTMLButtonElement;
             const filenameInput = document.getElementById('uploadedFile') as HTMLInputElement;
+
+            const game = {
+                board: [
+                    "_","_","_","#","#","#","_","_","_","_",
+                    "_","_","_","#",".","#","_","_","_","_",
+                    "_","_","_","#","_","#","#","#","#","#",
+                    "#","#","#","#","$","_","$","_",".","#",
+                    "#",".","_","_","$","@","#","#","#","#",
+                    "#","#","#","#","#","$","#","_","_","_",
+                    "_","_","_","_","#","_","#","_","_","_",
+                    "_","_","_","_","#","_","#","_","_","_",
+                    "_","_","_","_","#",".","#","_","_","_",
+                    "_","_","_","_","#","#","#","_","_","_"
+                   ],
+
+                checkWinCondition: () => false,
+                focusEnter: () => console.log("Canvas focus"),
+                focusExit: () => console.log("Canvas blur"),
+                keyEvent: (key, isPressed) => console.log("Key:", key, "Pressed:", isPressed)
+            };
+
+            const images: Record<string, HTMLImageElement> = {
+                wal: new Image(),
+                flr: new Image(),
+                tar: new Image(),
+                bor: new Image(),
+                bog: new Image()
+            };
+            images.wal.src = "./sprites/wall.png";
+            images.flr.src = "./sprites/floor.png";
+            images.tar.src = "./sprites/target.png";
+            images.bor.src = "./sprites/box00.png";
+            images.bog.src = "./sprites/box01.png";
+
+            const playerSprite = new Image();
+            playerSprite.src = "./sprites/me3.png";
+
+            const engine = new Engine(game, images, 30, 15, 10,10 , playerSprite);
+            engine.init();
 
 
 
