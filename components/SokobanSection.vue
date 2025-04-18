@@ -54,7 +54,6 @@
 </template>
 
 <script lang="ts">
-
 import { onMounted } from 'vue';
 import { Engine } from '~/game/Engine';
 import { FileManager } from '~/game/FileManager';
@@ -63,8 +62,7 @@ import { Player } from '~/game/Player';
 export default {
     setup() {
         onMounted(() => {
-
-            // init const
+            // === DOM Elements ===
             const textarea = document.getElementById('textarea') as HTMLTextAreaElement;
             const updateButton = document.getElementById('btn_update') as HTMLButtonElement;
             const fileInput = document.getElementById('file') as HTMLInputElement;
@@ -73,8 +71,8 @@ export default {
             const filenameInput = document.getElementById('uploadedFile') as HTMLInputElement;
             const gameScreen = document.getElementById('gameScreen') as HTMLCanvasElement;
 
-            // init game
-            textarea.textContent = [
+            // === Initial Game Board ===
+            const defaultLevel = [
                 "_", "_", "_", "#", "#", "#", "_", "_", "_", "_\n",
                 "_", "_", "_", "#", ".", "#", "_", "_", "_", "_\n",
                 "_", "_", "_", "#", "_", "#", "#", "#", "#", "#\n",
@@ -87,22 +85,26 @@ export default {
                 "_", "_", "_", "_", "#", "#", "#", "_", "_", "_\n"
             ].join(',');
 
+            textarea.textContent = defaultLevel;
+            const boardArray = defaultLevel.replace(/\n/g, '').split(',');
 
-            const boardArray = textarea.textContent.replace(/\n/g, '').split(',');
-
+            // === Game Object ===
             const game = {
                 board: boardArray,
                 checkWinCondition: () => false,
                 focusEnter: () => {
-                    gameScreen.focus(); // Important : canvas doit avoir tabindex="0"
-                    gameScreen.style.border = "2px solid red";
+                    gameScreen.focus();
+                    gameScreen.style.border = '2px solid red';
                 },
                 focusExit: () => {
-                    gameScreen.style.border = "1px solid black";
+                    gameScreen.style.border = '1px solid black';
                 },
-                keyEvent: (key, isPressed) => { movePlayer(key, isPressed) }
+                keyEvent: (key: number, isPressed: boolean) => {
+                    handlePlayerMove(key, isPressed);
+                }
             };
 
+            // === Load Sprites ===
             const images: Record<string, HTMLImageElement> = {
                 wal: new Image(),
                 flr: new Image(),
@@ -110,106 +112,86 @@ export default {
                 bor: new Image(),
                 bog: new Image()
             };
-            images.wal.src = "./sprites/wall.png";
-            images.flr.src = "./sprites/floor.png";
-            images.tar.src = "./sprites/target.png";
-            images.bor.src = "./sprites/box00.png";
-            images.bog.src = "./sprites/box01.png";
+            images.wal.src = './sprites/wall.png';
+            images.flr.src = './sprites/floor.png';
+            images.tar.src = './sprites/target.png';
+            images.bor.src = './sprites/box00.png';
+            images.bog.src = './sprites/box01.png';
 
             const playerSprite = new Image();
-            playerSprite.src = "./sprites/me3.png";
+            playerSprite.src = './sprites/me3.png';
 
+            // === Engine & Player Setup ===
             const engine = new Engine(game, images, 30, 15, 10, 10, playerSprite);
             engine.init();
 
             const player = new Player(game.board);
 
-            // GAME CORE
-            function movePlayer(key, isPressed) {
+            // === Player Movement Logic ===
+            function handlePlayerMove(key: number, isPressed: boolean) {
+                if (!isPressed) return;
 
-                let dirMap = {
-                    37: [-1, 0],
-                    38: [0, -1],
-                    39: [1, 0],
-                    40: [0, 1],
+                const dirMap: Record<number, [number, number]> = {
+                    37: [-1, 0], // left
+                    38: [0, -1], // up
+                    39: [1, 0],  // right
+                    40: [0, 1],  // down
                 };
-                if (isPressed) {
-                    if (key >= 37 && key <= 40) {
-                        player.setSprite(key);
-                        playerSprite.src = player.getSprite().src;
-                        moveTo(dirMap[key][0], dirMap[key][1]);
-                    }
-                    // else if (key == 82) {
-                    //     game.restart();
-                    // }
-                    // else if (key == 85) {
-                    //     game.undoLastPush();
-                    // }
+
+                if (dirMap[key]) {
+                    const [dx, dy] = dirMap[key];
+                    player.setSprite(key);
+                    playerSprite.src = player.getSprite().src;
+                    moveTo(dx, dy);
                     engine.drawBoard();
                 }
             }
 
-            // //Move To function
-            function moveTo(x: number, y: number): void {
-                // Récupère la case vers laquelle on veut se déplacer
-                const sourcePosition = player.getFuturPosition(0, 0);
-                const targetPosition = player.getFuturPosition(x, y);
-                const behindTargetPosition = player.getFuturPosition(x * 2, y * 2);
-                const targetCell = game.board[targetPosition];
-                const behindTargetCell = game.board[behindTargetPosition];
+            function moveTo(dx: number, dy: number) {
+                const source = player.getFuturPosition(0, 0);
+                const target = player.getFuturPosition(dx, dy);
+                const next = player.getFuturPosition(dx * 2, dy * 2);
 
-                // Vérifie si la case cible est traversable
-                if (['_', '.', '$', '*'].includes(targetCell)) {
+                const cell = game.board[target];
+                const nextCell = game.board[next];
 
-                    if (targetCell === '$') {
-                        if (['$', '#'].includes(behindTargetCell))
-                            return;
-                        
-                        
-                        game.board[behindTargetPosition] = ['.'].includes(behindTargetCell) ? '*': targetCell;
-                    }
-                    game.board[sourcePosition] = player.under;
-                    game.board[targetPosition] = "@";
-                    player.under = game.board[sourcePosition];
+                // Si la cellule ciblée n'est ni vide, ni une cible, ni une caisse, on ne bouge pas
+                if (!['_', '.', '$', '*'].includes(cell)) return;
 
-                    // Mise à jour de la position du joueur (sur le tableau de jeu)
-                    player.setX(player.x + x);
-                    player.setY(player.y + y);
+                // Tentative de poussée de caisse
+                if (cell === '$' || cell === '*') {
+                    // Si derrière la caisse c'est un mur, une autre caisse, ou une caisse sur une cible : on bloque
+                    if (['#', '$', '*'].includes(nextCell)) return;
 
-
-
-                    // // Déplacer le joueur vers la case vide
-                    // game.board[sourcePosition] = player.under;
-                    // game.board[targetPosition] = "@";
-                    // player.under = game.board[sourcePosition];
-
-                    // // Mise à jour de la position du joueur (sur le tableau de jeu)
-                    // player.setX(player.x + x);
-                    // player.setY(player.y + y);
-
-                    // Met à jour le rendu du jeu après déplacement
-                    engine.drawBoard();
-                    console.log(game.board);
+                    // On pousse la caisse vers la cellule suivante
+                    game.board[next] = nextCell === '.' ? '*' : '$';
                 }
+
+                // Déplacement du joueur
+                game.board[source] = player.under;
+                player.under = cell === '*' ? '.' : '_'; // Si le joueur marchait sur une cible
+                game.board[target] = '@';
+
+                player.setX(player.x + dx);
+                player.setY(player.y + dy);
+
+                engine.drawBoard();
+                console.log(game.board);
             }
 
 
-
-            // END GAME CORE
-
-            // File Management
+            // === File Management ===
             const fileManager = new FileManager(textarea, fileInput, filenameInput);
-            importButton.addEventListener('click', () => { fileManager.clickFileInput(); });
-            exportButton.addEventListener('click', () => { fileManager.triggerFileDownload(textarea.value, filenameInput.value.trim() || 'niveau.txt'); });
-            fileInput.addEventListener('change', () => { fileManager.loadTextFromFile(); });
+            importButton.addEventListener('click', () => fileManager.clickFileInput());
+            exportButton.addEventListener('click', () =>
+                fileManager.triggerFileDownload(textarea.value, filenameInput.value.trim() || 'niveau.txt')
+            );
+            fileInput.addEventListener('change', () => fileManager.loadTextFromFile());
             updateButton.addEventListener('click', () => {
-                const newBoard = textarea.value.replace(/\n/g, '').split(',');
-                game.board = newBoard;
+                game.board = textarea.value.replace(/\n/g, '').split(',');
                 engine.drawBoard();
             });
         });
     }
 };
-
-
 </script>
