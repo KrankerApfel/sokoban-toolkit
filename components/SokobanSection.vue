@@ -2,8 +2,8 @@
     <div id="Toolkit"
         class="flex flex-row items-center space-x-8 p-2 m-24 text-[#1e1e1e] bg-pink-200 max-w-wrapper-sm font-vt323">
         <div class="flex-1">
-            <canvas id="gameScreen" tabindex="0"
-                class="w-full outline-none aspect-square bg-amber-100 focus:border-2 focus:border-red-500">
+            <canvas id="gameScreen" 
+                class="w-full outline-none aspect-square bg-amber-100 ">
 
                 Votre navigateur ne supporte pas canvas, l'application ne peut fonctionner.<br /> Voici une liste non
                 exhaustive des navigateurs supportant cette technologie :
@@ -70,7 +70,7 @@ export default {
             const importButton = document.querySelector('input[value="Importer"]') as HTMLInputElement;
             const exportButton = document.getElementById('btn_upload') as HTMLButtonElement;
             const filenameInput = document.getElementById('uploadedFile') as HTMLInputElement;
-
+            const gameScreen = document.getElementById('gameScreen') as HTMLCanvasElement;
             const game = {
                 board: [
                     "_","_","_","#","#","#","_","_","_","_",
@@ -86,8 +86,8 @@ export default {
                    ],
 
                 checkWinCondition: () => false,
-                focusEnter: () => console.log("Canvas focus"),
-                focusExit: () => console.log("Canvas blur"),
+                focusEnter: () => gameScreen.style.border = "2px solid red",
+                focusExit: () => gameScreen.style.border = "1px solid black",
                 keyEvent: (key, isPressed) => console.log("Key:", key, "Pressed:", isPressed)
             };
 

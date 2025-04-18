@@ -28,15 +28,18 @@ export class Engine {
       if (!this.canvas) return;
   
       this.canvas.style.border = "1px solid black";
+      this.canvas.style.imageRendering = "pixelated"; 
       this.ctx = this.canvas.getContext("2d");
-  
+      if (this.ctx !=null)
+            this.ctx.imageSmoothingEnabled = false; 
+
       this.setupListeners();
       requestAnimationFrame(() => this.drawBoard());
     }
-  
+    
     private drawBoard() {
       if (!this.ctx) return;
-  
+      
       this.ctx.clearRect(0, 0, 400, 400);
   
       const sec = Math.floor(Date.now() / 1000);
